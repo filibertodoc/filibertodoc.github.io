@@ -69,7 +69,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 videoId: 'y4IlZbMPppc', // Your trailer video ID
                 playerVars: {
                     'playsinline': 1,
-                    'origin': window.location.origin
+                    'origin': window.location.origin,
+                    'rel': 0, // Prevent related videos at end
+                    'modestbranding': 1, // Hide YouTube logo
+                    'showinfo': 0 // Hide video info (deprecated but still useful)
                 },
                 events: {
                     'onReady': onPlayerReady,
@@ -98,6 +101,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 case YT.PlayerState.ENDED:
                     trackEvent('complete', 'YouTube Video', `${videoTitle} (${videoId})`);
                     stopProgressTracking();
+                    
+                    // Reset player to beginning to prevent related videos
+                    setTimeout(() => {
+                        if (player && player.seekTo) {
+                            player.seekTo(0);
+                            player.pauseVideo();
+                        }
+                    }, 1000);
                     break;
                 case YT.PlayerState.BUFFERING:
                     trackEvent('buffering', 'YouTube Video', `${videoTitle} (${videoId})`);

@@ -1,4 +1,4 @@
-/* --- 1. Font Import & Variables --- */
+/* --- 1. Base Styles & Variables --- */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
 
 :root {
@@ -13,7 +13,7 @@
     --kinema-color: #6a0dad;
 }
 
-/* --- 2. General Body & Layout --- */
+/* --- 2. Body & Main Structure --- */
 body {
     font-family: 'Montserrat', sans-serif;
     background-color: var(--background-color);
@@ -24,7 +24,121 @@ body {
     position: relative;
 }
 
-/* --- Hero Image Section - UPDATED STRUCTURE --- */
+main {
+    width: 90%;
+    max-width: 850px;
+    padding: 20px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+section {
+    margin-top: 40px;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: var(--divider-color);
+    margin: 40px auto;
+}
+
+/* --- 3. Mobile Navigation - Left Positioned --- */
+.mobile-nav {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(13, 13, 13, 0.9);
+    backdrop-filter: blur(5px);
+}
+
+.hamburger {
+    background: none;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-right: auto;
+    position: absolute;
+    left: 15px;
+    top: 15px;
+}
+
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: white;
+    transition: all 0.3s;
+}
+
+.hamburger.open span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+.nav-menu {
+    display: none;
+    flex-direction: column;
+    padding: 60px 20px 20px;
+    background: var(--background-color);
+    border-top: 1px solid var(--divider-color);
+    text-align: left;
+}
+
+.nav-menu.show {
+    display: flex;
+}
+
+.nav-link {
+    color: white;
+    padding: 12px 0;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.nav-link:hover {
+    color: var(--accent-color);
+}
+
+/* --- 4. Language Toggle - Right Positioned --- */
+.lang-button {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 1001;
+    background: rgba(42, 42, 42, 0.9);
+    color: white;
+    border: 1px solid var(--primary-text);
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-weight: 700;
+    width: 60px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.lang-button:hover {
+    background: var(--accent-color);
+}
+
+/* --- 5. Hero Image Section --- */
 .hero-image {
     position: absolute;
     top: 0;
@@ -59,28 +173,7 @@ body {
     object-fit: contain;
 }
 
-main {
-    width: 90%;
-    max-width: 850px;
-    padding: 20px;
-    box-sizing: border-box;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
-}
-
-section {
-    margin-top: 60px;
-}
-
-hr {
-    border: 0;
-    height: 1px;
-    background: var(--divider-color);
-    margin: 60px auto;
-}
-
-/* --- 3. Header & Synopsis --- */
+/* --- 6. Header & Typography --- */
 .page-header {
     width: 100%;
     padding: 80px 0 50px;
@@ -109,6 +202,15 @@ h1 {
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
 }
 
+h2 {
+    font-size: clamp(1.8rem, 6vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid var(--accent-color);
+}
+
 .synopsis {
     font-size: 1.1rem;
     line-height: 1.6;
@@ -122,61 +224,17 @@ h1 {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
-/* --- 4. Language Toggle Button --- */
-.lang-button {
-    background-color: rgba(42, 42, 42, 0.7);
-    color: var(--primary-text);
-    border: 1px solid var(--secondary-text);
-    padding: 8px 16px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 700;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-    backdrop-filter: blur(4px);
-}
-
-@media (max-width: 768px) {
-    .lang-button {
-        position: static;
-        transform: none;
-        margin-top: 10px;
-        backdrop-filter: none;
-    }
-}
-
-.lang-button:hover {
-    background-color: var(--accent-color);
-    color: #ffffff;
-    border-color: var(--accent-color);
-}
-
-/* --- 5. Content Typography & Sections --- */
-h2 {
-    font-size: clamp(1.8rem, 6vw, 2.5rem);
-    font-weight: 700;
-    letter-spacing: 1px;
-    padding-bottom: 15px;
-    margin-bottom: 30px;
-    border-bottom: 2px solid var(--accent-color);
-}
-
+/* --- 7. Screenings List --- */
 #screenings ul {
     list-style: none;
     padding: 0;
 }
 
-/* Tighter list spacing (45% reduction) */
 #screenings li {
-    margin-bottom: 8px; /* Reduced from 15px */
-    font-size: 1.1rem; /* Slightly smaller font */
+    margin-bottom: 8px;
+    font-size: 1.1rem;
     background-color: rgba(42, 42, 42, 0.3);
-    padding: 8px 15px; /* Reduced padding */
+    padding: 8px 15px;
     border-radius: 6px;
     transition: transform 0.2s ease;
 }
@@ -193,12 +251,12 @@ h2 {
     color: var(--accent-color);
 }
 
-/* --- 6. Streaming Section - CTA Buttons --- */
+/* --- 8. CTA Buttons --- */
 .cta-container {
     display: flex;
-    justify-content: center;
-    gap: 25px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
     margin-bottom: 40px;
 }
 
@@ -206,44 +264,23 @@ h2 {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 22px 35px;
-    font-size: 1.1rem;
+    padding: 15px 25px;
+    font-size: 1rem;
     font-weight: 700;
     border: none;
     border-radius: 8px;
     text-transform: uppercase;
-    letter-spacing: 1.2px;
+    letter-spacing: 1px;
     text-decoration: none;
     cursor: pointer;
     transition: all 0.3s ease;
-    text-align: center;
     min-width: 280px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-}
-
-.cta-button::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
-    z-index: -1;
-    transition: opacity 0.3s ease;
-    opacity: 0.5;
-}
-
-.cta-button:hover::after {
-    opacity: 0.8;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .cta-button:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
 .amazon-button {
@@ -264,30 +301,20 @@ h2 {
     background-color: #5a0a9c;
 }
 
-/* New info button styling */
-.info-button {
-    display: inline-block;
-    background-color: var(--accent-color);
-    color: white;
-    padding: 15px 25px;
-    border-radius: 8px;
+.info-link {
+    color: var(--accent-color);
     text-decoration: none;
-    font-weight: 700;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
-    margin-top: 15px;
-    box-shadow: 0 4px 12px rgba(217, 35, 46, 0.4);
-    width: 100%;
-    max-width: 400px;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    transition: color 0.2s;
 }
 
-.info-button:hover {
-    background-color: var(--accent-hover);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 18px rgba(217, 35, 46, 0.6);
+.info-link:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
 }
 
-/* --- 7. Responsive Media (Video & Form) --- */
+/* --- 9. Media Containers --- */
 .video-container, .form-container, .poster-container {
     position: relative;
     width: 100%;
@@ -299,7 +326,12 @@ h2 {
 }
 
 .video-container {
-    padding-bottom: 56.25%;
+    aspect-ratio: 16/9;
+}
+
+#youtube-player {
+    width: 100%;
+    height: 100%;
 }
 
 .form-container {
@@ -332,7 +364,7 @@ h2 {
     border: 0;
 }
 
-/* --- 8. Footer --- */
+/* --- 10. Footer --- */
 footer {
     margin-top: 80px;
     padding: 25px;
@@ -342,13 +374,13 @@ footer {
 
 .social-links {
     margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
 }
 
 .social-links a {
     color: var(--primary-text);
-    text-decoration: none;
-    margin: 0 15px;
-    font-weight: 700;
     transition: color 0.2s ease;
 }
 
@@ -362,7 +394,7 @@ footer p {
     color: var(--secondary-text);
 }
 
-/* --- 9. Language Toggle Logic --- */
+/* --- 11. Language Logic --- */
 html[lang="en"] [lang="es"] {
     display: none;
 }
@@ -380,21 +412,22 @@ html[lang="es"] a[lang="es"] {
     display: inline !important;
 }
 
-html[lang="es"] h1[lang="es"],
-html[lang="es"] h2[lang="es"],
-html[lang="es"] p[lang="es"],
-html[lang="es"] li[lang="es"] {
-    display: block;
-}
-
-/* --- 10. Responsive Adjustments - UPDATED --- */
+/* --- 12. Responsive Adjustments --- */
 @media (max-width: 768px) {
     :root {
         --hero-height: 50vh;
     }
     
+    .mobile-nav {
+        display: block;
+    }
+    
     .hero-image img {
         width: 80%;
+    }
+    
+    .header-content {
+        padding-top: 60px;
     }
     
     .synopsis {
@@ -402,18 +435,11 @@ html[lang="es"] li[lang="es"] {
         font-size: 1rem;
     }
     
-    .cta-container {
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-    }
-    
     .cta-button {
         width: 100%;
         max-width: 350px;
     }
 
-    /* Tighter list on mobile */
     #screenings li {
         margin-bottom: 6px;
         padding: 6px 12px;
@@ -430,27 +456,21 @@ html[lang="es"] li[lang="es"] {
         padding: 60px 0 30px;
     }
     
-    .header-content {
-        flex-direction: column;
-    }
-    
-    .lang-button {
-        position: static;
-        margin-top: 20px;
-    }
-    
-    .cta-button {
-        padding: 18px 25px;
-        font-size: 1rem;
-        min-width: 240px;
-    }
-    
     .hero-image img {
         width: 90%;
     }
-
-    .info-button {
+    
+    .cta-button {
         padding: 12px 20px;
-        font-size: 1rem;
+        font-size: 0.9rem;
+        min-width: 240px;
+    }
+    
+    .hamburger {
+        padding: 12px;
+    }
+    
+    .nav-menu {
+        padding: 15px;
     }
 }

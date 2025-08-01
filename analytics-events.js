@@ -11,12 +11,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Language toggle tracking
-    const langToggleButton = document.getElementById('lang-toggle');
-    if (langToggleButton) {
-        langToggleButton.addEventListener('click', function() {
-            const currentLang = document.documentElement.getAttribute('lang');
-            const newLang = currentLang === 'en' ? 'es' : 'en';
-            trackEvent('click', 'Language Toggle', `Toggle to ${newLang.toUpperCase()}`);
+    const langToggleButtons = document.querySelectorAll('#lang-toggle, #lang-toggle-mobile');
+    if (langToggleButtons.length > 0) {
+        langToggleButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const currentLang = document.documentElement.getAttribute('lang');
+                const newLang = currentLang === 'en' ? 'es' : 'en';
+                trackEvent('click', 'Language Toggle', `Toggle to ${newLang.toUpperCase()}`);
+            });
         });
     }
 
@@ -24,15 +26,16 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.amazon-button, .kinema-button').forEach(button => {
         button.addEventListener('click', function() {
             const platform = this.classList.contains('amazon-button') ? 'Amazon' : 'Kinema';
-            trackEvent('click', 'Streaming CTA', platform);
+            const action = this.classList.contains('amazon-button') ? 'Stream Now' : 'Rent or Host';
+            trackEvent(action, 'Streaming CTA', platform);
         });
     });
 
-    // Info button tracking
-    const infoButton = document.querySelector('.info-button');
-    if (infoButton) {
-        infoButton.addEventListener('click', function() {
-            trackEvent('click', 'Information', 'Learn More Button');
+    // Info link tracking
+    const infoLink = document.querySelector('.info-link');
+    if (infoLink) {
+        infoLink.addEventListener('click', function() {
+            trackEvent('click', 'Information', 'Learn More Link');
         });
     }
 
@@ -44,13 +47,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // YouTube Player Tracking
-    if (document.getElementById('youtube-player')) {
-        // Load YouTube API
-        const tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        const firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    // YouTube Player Tracking with Lazy Loading
+    const youtubePlayer = document.getElementById('youtube-player');
+    if (youtubePlayer) {
+        const trailerObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                loadYouTubePlayer();
+                trailerObserver.disconnect();
+                trackEvent('impression', 'YouTube Video', 'Trailer Visible');
+            }
+        }, { threshold: 0.1 });
+
+        trailerObserver.observe(youtubePlayer);
 
         // Player instance and progress tracking variables
         let player;
@@ -61,25 +69,33 @@ document.addEventListener('DOMContentLoaded', function() {
             95: false
         };
 
-        // YouTube API callback
-        window.onYouTubeIframeAPIReady = function() {
-            player = new YT.Player('youtube-player', {
-                height: '315',
-                width: '560',
-                videoId: 'y4IlZbMPppc', // Your trailer video ID
-                playerVars: {
-                    'playsinline': 1,
-                    'origin': window.location.origin,
-                    'rel': 0, // Prevent related videos at end
-                    'modestbranding': 1, // Hide YouTube logo
-                    'showinfo': 0 // Hide video info (deprecated but still useful)
-                },
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
-                }
-            });
-        };
+        function loadYouTubePlayer() {
+            // Load YouTube API
+            const tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+            // YouTube API callback
+            window.onYouTubeIframeAPIReady = function() {
+                player = new YT.Player('youtube-player', {
+                    height: '100%',
+                    width: '100%',
+                    videoId: 'y4IlZbMPppc',
+                    playerVars: {
+                        'playsinline': 1,
+                        'origin': window.location.origin,
+                        'rel': 0,
+                        'modestbranding': 1,
+                        'showinfo': 0
+                    },
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onStateChange': onPlayerStateChange
+                    }
+                });
+            };
+        }
 
         function onPlayerReady(event) {
             trackEvent('ready', 'YouTube Video', 'Player Ready');
@@ -160,4 +176,20 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
+
+    // Viewport tracking for main sections
+    const sections = document.querySelectorAll('section');
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const sectionId = entry.target.id;
+                const sectionName = entry.target.querySelector('h2')?.textContent || sectionId;
+                trackEvent('view', 'Section', sectionName);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    sections.forEach(section => {
+        sectionObserver.observe(section);
+    });
 });

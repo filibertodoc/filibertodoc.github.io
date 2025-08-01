@@ -1,4 +1,4 @@
-/* --- 1. Base Styles & Variables --- */
+/* ===== 1. BASE STYLES ===== */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
 
 :root {
@@ -13,7 +13,7 @@
     --kinema-color: #6a0dad;
 }
 
-/* --- 2. Body & Main Structure --- */
+/* ===== 2. BODY & MAIN STRUCTURE ===== */
 body {
     font-family: 'Montserrat', sans-serif;
     background-color: var(--background-color);
@@ -22,6 +22,7 @@ body {
     padding: 0;
     text-align: center;
     position: relative;
+    min-height: 100vh;
 }
 
 main {
@@ -34,18 +35,56 @@ main {
     z-index: 1;
 }
 
+/* ===== 3. REVISED SPACING SYSTEM ===== */
 section {
-    margin-top: 40px;
+    margin-top: 30px; /* Reduced from 40px */
 }
 
 hr {
     border: 0;
     height: 1px;
     background: var(--divider-color);
-    margin: 40px auto;
+    margin: 30px auto; /* Reduced from 40px */
 }
 
-/* --- 3. Mobile Navigation - Left Positioned --- */
+/* ===== 4. HEADER & SYNOPSIS ===== */
+.page-header {
+    width: 100%;
+    padding: 60px 0 30px; /* Reduced from 80px 0 50px */
+    position: relative;
+    z-index: 2;
+}
+
+.header-content {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.synopsis {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 10px auto 0; /* Reduced from 20px */
+    color: var(--primary-text);
+    background-color: rgba(13, 13, 13, 0.7);
+    padding: 15px; /* Reduced from 20px */
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* ===== 5. SPECIAL TRAILER SPACING ===== */
+#trailer {
+    margin-top: 20px; /* Extra reduction */
+}
+
+/* ===== 6. MOBILE NAVIGATION ===== */
 .mobile-nav {
     display: none;
     position: fixed;
@@ -69,6 +108,7 @@ hr {
     position: absolute;
     left: 15px;
     top: 15px;
+    z-index: 1001;
 }
 
 .hamburger span {
@@ -116,7 +156,7 @@ hr {
     color: var(--accent-color);
 }
 
-/* --- 4. Language Toggle - Right Positioned --- */
+/* ===== 7. LANGUAGE TOGGLE ===== */
 .lang-button {
     position: fixed;
     top: 15px;
@@ -138,7 +178,7 @@ hr {
     background: var(--accent-color);
 }
 
-/* --- 5. Hero Image Section --- */
+/* ===== 8. HERO IMAGE ===== */
 .hero-image {
     position: absolute;
     top: 0;
@@ -173,25 +213,7 @@ hr {
     object-fit: contain;
 }
 
-/* --- 6. Header & Typography --- */
-.page-header {
-    width: 100%;
-    padding: 80px 0 50px;
-    position: relative;
-    z-index: 2;
-}
-
-.header-content {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding: 0 20px;
-    box-sizing: border-box;
-}
-
+/* ===== 9. TYPOGRAPHY ===== */
 h1 {
     font-size: clamp(3rem, 10vw, 5rem);
     font-weight: 900;
@@ -207,24 +229,11 @@ h2 {
     font-weight: 700;
     letter-spacing: 1px;
     padding-bottom: 15px;
-    margin-bottom: 30px;
+    margin-bottom: 20px; /* Reduced from 30px */
     border-bottom: 2px solid var(--accent-color);
 }
 
-.synopsis {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    max-width: 600px;
-    margin: 20px auto 0 auto;
-    color: var(--primary-text);
-    background-color: rgba(13, 13, 13, 0.7);
-    padding: 20px;
-    border-radius: 8px;
-    backdrop-filter: blur(4px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-}
-
-/* --- 7. Screenings List --- */
+/* ===== 10. SCREENINGS LIST ===== */
 #screenings ul {
     list-style: none;
     padding: 0;
@@ -251,13 +260,13 @@ h2 {
     color: var(--accent-color);
 }
 
-/* --- 8. CTA Buttons --- */
+/* ===== 11. CTA BUTTONS ===== */
 .cta-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 15px;
-    margin-bottom: 40px;
+    margin-bottom: 30px; /* Reduced from 40px */
 }
 
 .cta-button {
@@ -314,7 +323,7 @@ h2 {
     text-decoration: underline;
 }
 
-/* --- 9. Media Containers --- */
+/* ===== 12. MEDIA CONTAINERS ===== */
 .video-container, .form-container, .poster-container {
     position: relative;
     width: 100%;
@@ -364,12 +373,14 @@ h2 {
     border: 0;
 }
 
-/* --- 10. Footer --- */
+/* ===== 13. FOOTER ===== */
 footer {
-    margin-top: 80px;
+    margin-top: 60px; /* Reduced from 80px */
     padding: 25px;
     width: 100%;
     background-color: #000000;
+    position: relative;
+    z-index: 1;
 }
 
 .social-links {
@@ -394,7 +405,7 @@ footer p {
     color: var(--secondary-text);
 }
 
-/* --- 11. Language Logic --- */
+/* ===== 14. LANGUAGE LOGIC ===== */
 html[lang="en"] [lang="es"] {
     display: none;
 }
@@ -412,7 +423,7 @@ html[lang="es"] a[lang="es"] {
     display: inline !important;
 }
 
-/* --- 12. Responsive Adjustments --- */
+/* ===== 15. RESPONSIVE ADJUSTMENTS ===== */
 @media (max-width: 768px) {
     :root {
         --hero-height: 50vh;
@@ -426,13 +437,26 @@ html[lang="es"] a[lang="es"] {
         width: 80%;
     }
     
-    .header-content {
-        padding-top: 60px;
+    .page-header {
+        padding: 40px 0 20px; /* Tighter spacing */
     }
     
     .synopsis {
-        padding: 15px;
+        padding: 12px;
         font-size: 1rem;
+        margin: 8px auto 0;
+    }
+    
+    section {
+        margin-top: 20px;
+    }
+    
+    hr {
+        margin: 20px auto;
+    }
+    
+    #trailer {
+        margin-top: 15px;
     }
     
     .cta-button {
@@ -453,7 +477,7 @@ html[lang="es"] a[lang="es"] {
     }
     
     .page-header {
-        padding: 60px 0 30px;
+        padding: 30px 0 15px;
     }
     
     .hero-image img {

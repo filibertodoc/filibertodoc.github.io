@@ -94,10 +94,11 @@ hr {
 .nav-links {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 20px;
     max-width: 850px;
     margin: 0 auto;
     padding: 0 20px;
+    flex-wrap: wrap;
 }
 
 .mobile-nav {
@@ -152,7 +153,6 @@ hr {
     padding: 60px 20px 20px;
     background: var(--background-color);
     border-top: 1px solid var(--divider-color);
-    text-align: left;
 }
 
 .nav-menu.show {
@@ -443,6 +443,10 @@ html[lang="es"] a[lang="es"] {
         display: block;
     }
     
+    .nav-links {
+        gap: 15px;
+    }
+    
     .hero-image img {
         width: 80%;
     }
@@ -484,6 +488,14 @@ html[lang="es"] a[lang="es"] {
 @media (max-width: 480px) {
     :root {
         --hero-height: 40vh;
+    }
+    
+    .nav-links {
+        gap: 10px;
+    }
+    
+    .nav-menu {
+        padding: 60px 15px 15px;
     }
     
     .page-header {

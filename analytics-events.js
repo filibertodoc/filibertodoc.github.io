@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Function to push events to dataLayer
     function trackEvent(action, category, label) {
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
@@ -10,19 +9,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Language toggle tracking
-    const langToggleButtons = document.querySelectorAll('#lang-toggle, #lang-toggle-mobile');
-    if (langToggleButtons.length > 0) {
-        langToggleButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const currentLang = document.documentElement.getAttribute('lang');
-                const newLang = currentLang === 'en' ? 'es' : 'en';
-                trackEvent('click', 'Language Toggle', `Toggle to ${newLang.toUpperCase()}`);
-            });
+    const langToggle = document.getElementById('lang-toggle');
+    const htmlElement = document.documentElement;
+
+    if (langToggle) {
+        langToggle.addEventListener('click', function() {
+            const currentLang = htmlElement.getAttribute('lang');
+            const newLang = currentLang === 'en' ? 'es' : 'en';
+            htmlElement.setAttribute('lang', newLang);
+            trackEvent('click', 'Language Toggle', `Toggle to ${newLang.toUpperCase()}`);
         });
     }
 
-    // Streaming buttons tracking
     document.querySelectorAll('.amazon-button, .kinema-button').forEach(button => {
         button.addEventListener('click', function() {
             const platform = this.classList.contains('amazon-button') ? 'Amazon' : 'Kinema';
@@ -31,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Info link tracking
     const infoLink = document.querySelector('.info-link');
     if (infoLink) {
         infoLink.addEventListener('click', function() {
@@ -39,7 +36,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Screening info links tracking
     document.querySelectorAll('#screenings li a').forEach(link => {
         link.addEventListener('click', function() {
             const location = this.closest('li').textContent.split('@')[0].trim();
@@ -47,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // YouTube Player Tracking with Lazy Loading
     const youtubePlayer = document.getElementById('youtube-player');
     if (youtubePlayer) {
         const trailerObserver = new IntersectionObserver((entries) => {
@@ -60,7 +55,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         trailerObserver.observe(youtubePlayer);
 
-        // Player instance and progress tracking variables
         let player;
         let progressTracked = {
             25: false,
@@ -70,13 +64,11 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         function loadYouTubePlayer() {
-            // Load YouTube API
             const tag = document.createElement('script');
             tag.src = "https://www.youtube.com/iframe_api";
             const firstScriptTag = document.getElementsByTagName('script')[0];
             firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-            // YouTube API callback
             window.onYouTubeIframeAPIReady = function() {
                 player = new YT.Player('youtube-player', {
                     height: '100%',
@@ -92,7 +84,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     events: {
                         'onReady': onPlayerReady,
                         'onStateChange': onPlayerStateChange
-                    }
+                    },
+                    title: 'Filiberto Official Trailer'
                 });
             };
         }
@@ -118,7 +111,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     trackEvent('complete', 'YouTube Video', `${videoTitle} (${videoId})`);
                     stopProgressTracking();
                     
-                    // Reset player to beginning to prevent related videos
                     setTimeout(() => {
                         if (player && player.seekTo) {
                             player.seekTo(0);
@@ -136,7 +128,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // Progress tracking functions
         let progressInterval;
         
         function startProgressTracking() {
@@ -166,7 +157,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const videoTitle = videoData.title || 'Filiberto Trailer';
                 const videoId = videoData.video_id || 'y4IlZbMPppc';
                 
-                // Track progress milestones
                 [25, 50, 75, 95].forEach(threshold => {
                     if (percent >= threshold && !progressTracked[threshold]) {
                         trackEvent(`progress_${threshold}`, 'YouTube Video', `${videoTitle} (${videoId})`);
@@ -177,7 +167,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Viewport tracking for main sections
     const sections = document.querySelectorAll('section');
     const sectionObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
